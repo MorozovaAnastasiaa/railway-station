@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,19 @@
 
 </head>
 <body>
+    <div sec:authorize="isAuthenticated()">
+        Вы вошли как: <span sec:authentication="name"></span>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Выйти</button>
+        </form>
+    </div>
+
+    <!-- Для неавторизованных -->
+    <div sec:authorize="!isAuthenticated()">
+        <a th:href="@{/login}">Войти</a> |
+        <a th:href="@{/register}">Регистрация</a>
+    </div>
+
     <h1>Расписание поездов</h1>
     <h2>Фильтрация поездов</h2>
     <form th:action="@{/}" method="get">
@@ -25,7 +38,9 @@
     </form>
 
 
-    <a href="/add-form">Добавить новый поезд</a>
+    <div sec:authorize="hasRole('ADMIN')">
+        <a href="/add-form">Добавить новый поезд</a>
+    </div>
 
     <table class="table">
         <thead>
@@ -77,10 +92,14 @@
                 <td th:text="${train.arrivalDatetime}"></td>
                 <td th:text="${train.platform}"></td>
                 <td>
-                    <a th:href="@{/update-form/{id}(id=${train.id})}">Изменить</a>
-                    <form th:action="@{/delete-train/{id}(id=${train.id})}" method="post" style="display: inline;">
-                        <button type="submit">Удалить</button>
-                    </form>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a th:href="@{/update-form/{id}(id=${train.id})}">Изменить</a>
+                    </div>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <form th:action="@{/delete-train/{id}(id=${train.id})}" method="post" style="display: inline;">
+                            <button type="submit">Удалить</button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         </tbody>
