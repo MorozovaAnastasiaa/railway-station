@@ -9,6 +9,8 @@
 
 </head>
 <body>
+    <div th:replace="~{fragments/navbar}"></div>
+
     <h1>Изменить поезд</h1>
 
     <form th:action="@{/update-train/{id}(id=${train.id})}" th:object="${train}" method="post">
