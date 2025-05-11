@@ -2,12 +2,14 @@ package com.railway.RailwayStation3.controller;
 
 import com.railway.RailwayStation3.repository.Train;
 import com.railway.RailwayStation3.service.TrainService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -20,12 +22,17 @@ public class TrainViewController {
 
     @GetMapping
     public String findAll(
-            @RequestParam(required = false, defaultValue = "id") String sortBy,
+            @RequestParam(required = false) String fromCity,
+            @RequestParam(required = false) String toCity,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureDatetime, @RequestParam(required = false, defaultValue = "id") String sortBy,
             Model model) {
 
-        List<Train> trains = trainService.findAllSorted(sortBy);
+        List<Train> trains = trainService.findByFilters(fromCity, toCity, departureDatetime, sortBy);
 
         model.addAttribute("trains", trains);
+        model.addAttribute("fromCity", fromCity);
+        model.addAttribute("toCity", toCity);
+        model.addAttribute("departureDatetime", departureDatetime);
         model.addAttribute("sortBy", sortBy);
 
         return "index";

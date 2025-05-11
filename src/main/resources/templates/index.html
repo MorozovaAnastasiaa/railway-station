@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -14,11 +13,11 @@
     <form th:action="@{/}" method="get">
         <div>
             <label>Откуда:</label>
-            <input type="text" name="fromCityFilter" th:value="${param.fromCityFilter}">
+            <input type="text" name="fromCity" th:value="${param.fromCity}">
             <label>Куда:</label>
-            <input type="text" name="toCityFilter" th:value="${param.toCityFilter}">
+            <input type="text" name="toCity" th:value="${param.toCity}">
             <label>Когда:</label>
-            <input type="datetime-local" name="departureFrom">
+            <input type="datetime-local" name="departureDatetime" th:value="${param.departureDatetime}">
             <button type="submit">Применить фильтр</button>
             <a th:href="@{/}">Сбросить фильтры</a>
         </div>
@@ -32,22 +31,40 @@
         <thead>
         <tr>
             <th>
-                <a th:href="@{/(sortBy='number')}">Номер поезда</a>
+                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDatetime=${param.departureDatetime != null ? '&departureDatetime=' + param.departureDatetime[0] : ''}"
+                   th:href="@{'/?sortBy=number' + ${fromCity} + ${toCity} + ${departureDatetime}}">Номер поезда</a>
             </th>
             <th>
-                <a th:href="@{/(sortBy='fromCity')}">Откуда</a>
+                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDatetime=${param.departureDatetime != null ? '&departureDatetime=' + param.departureDatetime[0] : ''}"
+                   th:href="@{'/?sortBy=fromCity' + ${fromCity} + ${toCity} + ${departureDatetime}}">Откуда</a>
             </th>
             <th>
-                <a th:href="@{/(sortBy='toCity')}">Куда</a>
+                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDatetime=${param.departureDatetime != null ? '&departureDatetime=' + param.departureDatetime[0] : ''}"
+                   th:href="@{'/?sortBy=toCity' + ${fromCity} + ${toCity} + ${departureDatetime}}">Куда</a>
             </th>
             <th>
-                <a th:href="@{/(sortBy='departureDatetime')}">Отправление</a>
+                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDatetime=${param.departureDatetime != null ? '&departureDatetime=' + param.departureDatetime[0] : ''}"
+                   th:href="@{'/?sortBy=departureDatetime' + ${fromCity} + ${toCity} + ${departureDatetime}}">Отправление</a>
             </th>
             <th>
-                <a th:href="@{/(sortBy='arrivalDatetime')}">Прибытие</a>
+                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDatetime=${param.departureDatetime != null ? '&departureDatetime=' + param.departureDatetime[0] : ''}"
+                   th:href="@{'/?sortBy=arrivalDatetime' + ${fromCity} + ${toCity} + ${departureDatetime}}">Прибытие</a>
             </th>
             <th>
-                <a th:href="@{/(sortBy='platform')}">Платформа</a>
+                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDatetime=${param.departureDatetime != null ? '&departureDatetime=' + param.departureDatetime[0] : ''}"
+                   th:href="@{'/?sortBy=platform' + ${fromCity} + ${toCity} + ${departureDatetime}}">Платформа</a>
             </th>
         </tr>
         </thead>

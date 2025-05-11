@@ -2,12 +2,12 @@ package com.railway.RailwayStation3.service;
 
 import com.railway.RailwayStation3.repository.Train;
 import com.railway.RailwayStation3.repository.TrainRepository;
+import jakarta.annotation.Nullable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.SortedMap;
 
 @Service
 public class TrainService {
@@ -36,6 +36,24 @@ public class TrainService {
 
     public Train getTrainById(Long id) {
         return trainRepository.findById(id).orElse(null);
+
+    }
+
+
+    public List<Train> findByFilters(
+            String fromCity,
+            String toCity,
+            LocalDateTime departureDatetime,
+            String sortBy) {
+
+        Sort sort = Sort.by(sortBy);
+
+        if (fromCity != null && toCity != null && departureDatetime != null) {
+            return trainRepository.findByFromCityAndToCityAndDepartureDatetime(
+                    fromCity, toCity, departureDatetime, sort);
+        }
+
+        return trainRepository.findAll(sort);
 
     }
 }
