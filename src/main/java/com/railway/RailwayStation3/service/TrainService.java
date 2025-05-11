@@ -1,0 +1,41 @@
+package com.railway.RailwayStation3.service;
+
+import com.railway.RailwayStation3.repository.Train;
+import com.railway.RailwayStation3.repository.TrainRepository;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.SortedMap;
+
+@Service
+public class TrainService {
+    private final TrainRepository trainRepository;
+
+    public TrainService(TrainRepository trainRepository) {
+        this.trainRepository = trainRepository;
+    }
+
+    public List<Train> findAll() {
+        return trainRepository.findAll();
+    }
+
+    public List<Train> findAllSorted(String sortBy) {
+        Sort sort = Sort.by(sortBy).ascending();
+        return trainRepository.findAll(sort);
+    }
+
+    public Train createTrain(Train train) {
+        return trainRepository.save(train);
+    }
+
+    public void deleteTrain(Long id) {
+        trainRepository.deleteById(id);
+    }
+
+    public Train getTrainById(Long id) {
+        return trainRepository.findById(id).orElse(null);
+
+    }
+}
