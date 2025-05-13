@@ -21,9 +21,11 @@ public class User implements UserDetails {
     private String password;
     private String role = "ROLE_USER";
 
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Возвращает список ролей (в данном случае одну роль)
         return Collections.singletonList(new SimpleGrantedAuthority(this.role));
     }
 

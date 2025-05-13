@@ -1,10 +1,10 @@
 package com.railway.RailwayStation3.controller;
 
 import com.railway.RailwayStation3.repository.Train;
+import com.railway.RailwayStation3.repository.User;
 import com.railway.RailwayStation3.service.TrainService;
+import com.railway.RailwayStation3.service.UserService;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +16,11 @@ import java.util.List;
 @Controller
 public class TrainViewController {
     private final TrainService trainService;
+    private final UserService userService;
 
-    public TrainViewController(TrainService trainService) {
+    public TrainViewController(TrainService trainService, UserService userService) {
         this.trainService = trainService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -76,4 +78,19 @@ public class TrainViewController {
         return "redirect:/";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin")
+    public String adminForm(Model model) {
+        List<User> users = userService.findAll();
+        model.addAttribute("users", users);
+        return "admin-panel";
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/admin/update-role")
+    public String updateUserRole(@RequestParam Long userId,
+                                 @RequestParam String newRole) {
+        userService.updateUserRole(userId, newRole);
+        return "redirect:/admin";
+    }
 }
