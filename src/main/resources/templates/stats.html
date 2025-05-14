@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/navbar}"></div>
+
+<div class="container mt-5">
+    <h1 class="mb-4">Статистика системы</h1>
+
+    <!-- Блок с количеством пользователей -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Пользователи</h2>
+        </div>
+        <div class="card-body">
+            <h3>Общее количество пользователей:
+                <span th:text="${stats.totalUsers}"></span>
+            </h3>
+        </div>
+    </div>
+
+    <!-- Блок с популярными направлениями -->
+    <div class="card">
+        <div class="card-header">
+            <h2>Популярные направления</h2>
+        </div>
+        <div class="card-body">
+            <div class="chart-container" style="height:400px; width:100%">
+                <canvas id="directionsChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+        // Получаем данные из модели
+        const directions = /*[[${stats.popularDirections}]]*/ [];
+
+        // Подготавливаем данные для графика
+        const labels = directions.map(d => d[0]);
+        const data = directions.map(d => d[1]);
+
+        // Создаем гистограмму
+        new Chart(
+            document.getElementById('directionsChart'),
+            {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Количество поездов',
+                        data: data,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Количество поездов'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Направления'
+                            }
+                        }
+                    }
+                }
+            }
+        );
+    </script>
+</body>
+</html>

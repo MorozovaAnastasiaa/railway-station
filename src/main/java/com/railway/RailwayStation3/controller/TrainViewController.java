@@ -2,6 +2,7 @@ package com.railway.RailwayStation3.controller;
 
 import com.railway.RailwayStation3.repository.Train;
 import com.railway.RailwayStation3.repository.User;
+import com.railway.RailwayStation3.service.StatsService;
 import com.railway.RailwayStation3.service.TrainService;
 import com.railway.RailwayStation3.service.UserService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,10 +18,12 @@ import java.util.List;
 public class TrainViewController {
     private final TrainService trainService;
     private final UserService userService;
+    private final StatsService statsService;
 
-    public TrainViewController(TrainService trainService, UserService userService) {
+    public TrainViewController(TrainService trainService, UserService userService, StatsService statsService) {
         this.trainService = trainService;
         this.userService = userService;
+        this.statsService = statsService;
     }
 
     @GetMapping
@@ -93,4 +96,17 @@ public class TrainViewController {
         userService.updateUserRole(userId, newRole);
         return "redirect:/admin";
     }
+
+    @GetMapping("/stats")
+    public String statsPage(Model model) {
+        model.addAttribute("stats", statsService.getSystemStats());
+        return "stats";
+    }
+
+    @GetMapping("/about")
+    public String showAboutAuthor() {
+        return "/about";
+    }
+
+
 }
