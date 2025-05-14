@@ -6,6 +6,7 @@ import jakarta.annotation.Nullable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,14 +44,14 @@ public class TrainService {
     public List<Train> findByFilters(
             String fromCity,
             String toCity,
-            LocalDateTime departureDatetime,
+            LocalDate departureDate,
             String sortBy) {
 
         Sort sort = Sort.by(sortBy);
 
-        if (fromCity != null && toCity != null && departureDatetime != null) {
-            return trainRepository.findByFromCityAndToCityAndDepartureDatetime(
-                    fromCity, toCity, departureDatetime, sort);
+        if (fromCity != null && toCity != null && departureDate != null) {
+            return trainRepository.findByFromCityAndToCityAndDepartureDate(
+                    fromCity, toCity, departureDate, sort);
         }
 
         return trainRepository.findAll(sort);

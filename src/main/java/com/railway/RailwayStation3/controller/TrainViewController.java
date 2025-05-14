@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,15 +31,16 @@ public class TrainViewController {
     public String findAll(
             @RequestParam(required = false) String fromCity,
             @RequestParam(required = false) String toCity,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureDatetime, @RequestParam(required = false, defaultValue = "id") String sortBy,
+            @RequestParam(required = false) LocalDate departureDate,
+            @RequestParam(required = false, defaultValue = "id") String sortBy,
             Model model) {
 
-        List<Train> trains = trainService.findByFilters(fromCity, toCity, departureDatetime, sortBy);
+        List<Train> trains = trainService.findByFilters(fromCity, toCity, departureDate, sortBy);
 
         model.addAttribute("trains", trains);
         model.addAttribute("fromCity", fromCity);
         model.addAttribute("toCity", toCity);
-        model.addAttribute("departureDatetime", departureDatetime);
+        model.addAttribute("departureDate", departureDate);
         model.addAttribute("sortBy", sortBy);
 
         return "index";

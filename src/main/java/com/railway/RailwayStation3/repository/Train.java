@@ -3,7 +3,9 @@ package com.railway.RailwayStation3.repository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "trains")
@@ -23,13 +25,17 @@ public class Train {
 
     private String platform;
 
-    @Column(name = "departure_datetime")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime departureDatetime;
+    @Column(name = "departure_date")
+    private LocalDate departureDate;
 
-    @Column(name = "arrival_datetime")
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private LocalDateTime arrivalDatetime;
+    @Column(name = "departure_time")
+    private LocalTime departureTime;
+
+    @Column(name = "arrival_date")
+    private LocalDate arrivalDate;
+
+    @Column(name = "arrival_time")
+    private LocalTime arrivalTime;
 
     public Train(Long id, String number, String fromCity, String toCity, LocalDateTime departureTime, LocalDateTime arrivalTime, String platform) {
         this.id = id;
@@ -83,20 +89,36 @@ public class Train {
         this.platform = platform;
     }
 
-    public LocalDateTime getDepartureDatetime() {
-        return departureDatetime;
+    public LocalDate getDepartureDate() {
+        return departureDate;
     }
 
-    public void setDepartureDatetime(LocalDateTime departureDatetime) {
-        this.departureDatetime = departureDatetime;
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
     }
 
-    public LocalDateTime getArrivalDatetime() {
-        return arrivalDatetime;
+    public LocalTime getDepartureTime() {
+        return departureTime;
     }
 
-    public void setArrivalDatetime(LocalDateTime arrivalDatetime) {
-        this.arrivalDatetime = arrivalDatetime;
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public LocalDate getArrivalDate() {
+        return arrivalDate;
+    }
+
+    public void setArrivalDate(LocalDate arrivalDate) {
+        this.arrivalDate = arrivalDate;
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     @Override
