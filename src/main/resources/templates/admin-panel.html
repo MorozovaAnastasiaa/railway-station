@@ -8,44 +8,50 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
-<body>
+<body class="bg-dark text-light">
     <div th:replace="~{fragments/navbar}"></div>
 
-    <h1>Таблица пользователей</h1>
+    <div class="container mt-5">
+        <h2>Таблица пользователей</h2>
 
-    <table class="table">
-        <thead>
-            <th>Имя</th>
-            <th>Телефон</th>
-            <th>Почта</th>
-            <th>Роль</th>
-        </thead>
-        <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.username}"></td>
-                <td th:text="${user.phone}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.role}"></td>
+        <div class="card shadow">
+            <table class="table">
+                <thead>
+                <th>Имя</th>
+                <th>Телефон</th>
+                <th>Почта</th>
+                <th>Роль</th>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.phone}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.role}"></td>
 
-                <td>
-                    <form th:action="@{/admin/update-role}" method="post">
-                        <input type="hidden" name="userId" th:value="${user.id}">
-                        <select name="newRole" class="form-select">
-                            <option th:value="${T(com.railway.RailwayStation3.repository.User).ROLE_ADMIN}"
-                                    th:selected="${user.role == T(com.railway.RailwayStation3.repository.User).ROLE_ADMIN}">
-                                Администратор
-                            </option>
-                            <option th:value="${T(com.railway.RailwayStation3.repository.User).ROLE_USER}"
-                                    th:selected="${user.role == T(com.railway.RailwayStation3.repository.User).ROLE_USER}">
-                                Пользователь
-                            </option>
-                        </select>
-                        <button type="submit" class="btn btn-primary mt-2">Обновить</button>
-                    </form>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    <td>
+                        <form th:action="@{/admin/update-role}" method="post">
+                            <input type="hidden" name="userId" th:value="${user.id}">
+                            <select name="newRole" class="form-select">
+                                <option th:value="${T(com.railway.RailwayStation3.repository.User).ROLE_ADMIN}"
+                                        th:selected="${user.role == T(com.railway.RailwayStation3.repository.User).ROLE_ADMIN}">
+                                    Администратор
+                                </option>
+                                <option th:value="${T(com.railway.RailwayStation3.repository.User).ROLE_USER}"
+                                        th:selected="${user.role == T(com.railway.RailwayStation3.repository.User).ROLE_USER}">
+                                    Пользователь
+                                </option>
+                            </select>
+                            <button type="submit" class="btn btn-primary mt-2">Обновить</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
 
 
 </body>

@@ -6,52 +6,88 @@
     <meta charset="UTF-8">
     <title>Изменить поезд</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
-<body>
-    <div th:replace="~{fragments/navbar}"></div>
+<body class="bg-dark text-light">
+<div th:replace="~{fragments/navbar}"></div>
 
-    <h1>Изменить поезд</h1>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6 col-lg-6">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4">Изменить поезд</h2>
 
-    <form th:action="@{/update-train/{id}(id=${train.id})}" th:object="${train}" method="post">
-        <input type="hidden" th:field="*{id}">
-        <div>
-            <label for="number">Номер поезда:</label>
-            <input type="text" id="number" th:field="*{number}" required>
-        </div>
-        <div>
-            <label for="fromCity">Откуда:</label>
-            <input type="text" id="fromCity" th:field="*{fromCity}" required>
-        </div>
-        <div>
-            <label for="toCity">Куда:</label>
-            <input type="text" id="toCity" th:field="*{toCity}" required>
-        </div>
-        <div>
-            <label for="departureDate">Дата отправления:</label>
-            <input type="text" id="departureDate" th:field="*{departureDate}" required>
-        </div>
-        <div>
-            <label for="arrivalDate">Дата прибытия:</label>
-            <input type="text" id="arrivalDate" th:field="*{arrivalDate}" required>
-        </div>
-        <div>
-            <label for="departureTime">Дата отправления:</label>
-            <input type="text" id="departureTime" th:field="*{departureTime}" required>
-        </div>
-        <div>
-            <label for="arrivalTime">Дата прибытия:</label>
-            <input type="text" id="arrivalTime" th:field="*{arrivalTime}" required>
-        </div>
-        <div>
-            <label for="platform">Платформа:</label>
-            <input type="text" id="platform" th:field="*{platform}" required>
-        </div>
-        <div>
-            <button type="submit">Ок</button>
-            <a href="/">Назад</a>
-        </div>
-    </form>
+                    <form th:action="@{/update-train/{id}(id=${train.id})}" th:object="${train}" method="post" class="mb-4">
+                        <input type="hidden" th:field="*{id}">
 
+                        <!-- Номер поезда -->
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text">Номер поезда:</span>
+                            <input type="text" class="form-control" id="number" th:field="*{number}" required>
+                        </div>
+
+                        <!-- Станция отправления -->
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text">Откуда:</span>
+                            <input type="text" class="form-control" id="fromCity" th:field="*{fromCity}" required>
+                        </div>
+
+                        <!-- Станция прибытия -->
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text">Куда:</span>
+                            <input type="text" class="form-control" id="toCity" th:field="*{toCity}" required>
+                        </div>
+
+                            <!-- Дата и время отправления -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text">Дата отправления:</span>
+                                        <input type="date" class="form-control" id="departureDate" th:field="*{departureDate}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text">Время отправления:</span>
+                                        <input type="time" class="form-control" id="departureTime" th:field="*{departureTime}" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Дата и время прибытия -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text">Дата прибытия:</span>
+                                        <input type="date" class="form-control" id="arrivalDate" th:field="*{arrivalDate}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text">Время прибытия:</span>
+                                        <input type="time" class="form-control" id="arrivalTime" th:field="*{arrivalTime}" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Платформа -->
+                            <div class="input-group input-group-sm mb-4">
+                                <span class="input-group-text">Платформа:</span>
+                                <input type="text" class="form-control" id="platform" th:field="*{platform}">
+                            </div>
+
+                            <!-- Кнопки -->
+                            <button type="submit" class="btn btn-success btn-sm">
+                                Сохранить
+                            </button>
+                            <a th:href="@{/}" class="btn btn-outline-secondary btn-sm">
+                                Назад
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
