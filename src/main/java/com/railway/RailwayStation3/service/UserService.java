@@ -40,8 +40,9 @@ public class UserService implements UserDetailsService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email уже используется");
         }
+
         if (userRepository.existsByPhone(user.getPhone())) {
-            throw new IllegalArgumentException("Телефон уже зарегистрирован");
+            throw new IllegalArgumentException("Телефон уже используется");
         }
 
         // Шифрование пароля

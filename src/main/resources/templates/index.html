@@ -6,109 +6,137 @@
 <head>
     <meta charset="UTF-8">
     <title>Расписание поездов</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/simplex/bootstrap.min.css" rel="stylesheet">
 
 </head>
-<body>
-    <div class=".bg-secondary.bg-gradient"></div>
-    <div th:replace="~{fragments/navbar}"></div>
+<body class="bg-dark text-light">
+    <div class="jumbotron jumbotron-fluid"
+         style="background: url('/train3.jpg') no-repeat center center;
+                    background-size: cover;
+                    height: 350px;">
+        <div th:replace="~{fragments/navbar}"></div>
 
-    <h2>Поиск</h2>
-    <form th:action="@{/}" method="get">
-        <div>
-            <label>Откуда:</label>
-            <input type="text" name="fromCity" th:value="${param.fromCity}">
-            <label>Куда:</label>
-            <input type="text" name="toCity" th:value="${param.toCity}">
-            <label>Когда:</label>
-            <input type="date" name="departureDate" th:value="${param.departureDate}">
-            <button type="submit">Применить фильтр</button>
-            <a th:href="@{/}">Сбросить фильтры</a>
-        </div>
+        <div class="container">
 
-    </form>
+            <div class="card shadow mt-5" style="background-color: rgba(0, 0, 0, 0.5); border: none;">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-4 text-light">Укажите маршрут и дату поездки, чтобы узнать расписание</h2>
+                    <form th:action="@{/}" method="get" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="fromCity" th:value="${param.fromCity}" placeholder="Город отправления">
 
+                            <span class="input-group-text bg-transparent border-0 px-2">
+                                    <i class="bi bi-arrow-right text-white"></i>
+                            </span>
+                            <input type="text" class="form-control" name="toCity" th:value="${param.toCity}" placeholder="Город прибытия">
 
-    <div sec:authorize="hasRole('ADMIN')">
-        <a href="/add-form">Добавить новый поезд</a>
-    </div>
+                            <span class="input-group-text bg-transparent text-white border-0">Дата:</span>
+                            <input type="date" class="form-control" name="departureDate" th:value="${param.departureDate}">
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>
-                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
-    toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
-    departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
-                   th:href="@{'/?sortBy=number' + ${fromCity} + ${toCity} + ${departureDate}}">Номер поезда</a>
-            </th>
-            <th>
-                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
-    toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
-    departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
-                   th:href="@{'/?sortBy=fromCity' + ${fromCity} + ${toCity} + ${departureDate}}">Откуда</a>
-            </th>
-            <th>
-                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
-    toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
-    departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
-                   th:href="@{'/?sortBy=toCity' + ${fromCity} + ${toCity} + ${departureDate}}">Куда</a>
-            </th>
-            <th>
-                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
-    toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
-    departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
-                   th:href="@{'/?sortBy=departureDate' + ${fromCity} + ${toCity} + ${departureDate}}">Дата отправления</a>
-            </th>
-            <th>
-                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
-    toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
-    departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
-                   th:href="@{'/?sortBy=arrivalDate' + ${fromCity} + ${toCity} + ${departureDate}}">Дата прибытия</a>
-            </th>
-            <th>
-                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
-    toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
-    departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
-                   th:href="@{'/?sortBy=departureTime' + ${fromCity} + ${toCity} + ${departureDate}}">Время отправления</a>
-            </th>
-            <th>
-                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
-    toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
-    departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
-                   th:href="@{'/?sortBy=arrivalTime' + ${fromCity} + ${toCity} + ${departureDate}}">Время прибытия</a>
-            </th>
-            <th>
-                <a th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
-    toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
-    departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
-                   th:href="@{'/?sortBy=platform' + ${fromCity} + ${toCity} + ${departureDate}}">Платформа</a>
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="train : ${trains}">
-            <td th:text="${train.number}"></td>
-            <td th:text="${train.fromCity}"></td>
-            <td th:text="${train.toCity}"></td>
-            <td th:text="${train.departureDate}"></td>
-            <td th:text="${train.arrivalDate}"></td>
-            <td th:text="${train.departureTime}"></td>
-            <td th:text="${train.arrivalTime}"></td>
-            <td th:text="${train.platform}"></td>
-            <td>
-                <div sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/update-form/{id}(id=${train.id})}">Изменить</a>
-
-                    <form th:action="@{/delete-train/{id}(id=${train.id})}" method="post" style="display: inline;">
-                        <button type="submit">Удалить</button>
+                            <button type="submit" class="btn btn-outline-light">
+                                <i class="bi bi-funnel"></i> Применить
+                            </button>
+                                <a th:href="@{/}" class="btn btn-outline-light">
+                                    <i class="bi bi-x-circle"></i> Сбросить
+                                </a>
+                        </div>
                     </form>
                 </div>
-            </td>
+            </div>
+        </div>
+    </div>
 
-        </tr>
-        </tbody>
-    </table>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="container">
+
+    <div class="my-3" sec:authorize="hasRole('ADMIN')">
+        <form th:action="@{/add-form}" method="get">
+            <button type="submit" class="btn btn-success"><i class="bi bi-plus"></i></i></button>
+        </form>
+    </div>
+
+    <div class="card shadow">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
+                           th:href="@{'/?sortBy=number' + ${fromCity} + ${toCity} + ${departureDate}}">Номер поезда</a>
+                    </th>
+                    <th>
+                        <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
+                           th:href="@{'/?sortBy=fromCity' + ${fromCity} + ${toCity} + ${departureDate}}">Откуда</a>
+                    </th>
+                    <th>
+                        <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
+                           th:href="@{'/?sortBy=toCity' + ${fromCity} + ${toCity} + ${departureDate}}">Куда</a>
+                    </th>
+                    <th>
+                        <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
+                           th:href="@{'/?sortBy=departureDate' + ${fromCity} + ${toCity} + ${departureDate}}">Дата отправления</a>
+                    </th>
+                    <th>
+                        <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
+                           th:href="@{'/?sortBy=arrivalDate' + ${fromCity} + ${toCity} + ${departureDate}}">Дата прибытия</a>
+                    </th>
+                    <th>
+                        <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
+                           th:href="@{'/?sortBy=departureTime' + ${fromCity} + ${toCity} + ${departureDate}}">Время отправления</a>
+                    </th>
+                    <th>
+                        <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
+                           th:href="@{'/?sortBy=arrivalTime' + ${fromCity} + ${toCity} + ${departureDate}}">Время прибытия</a>
+                    </th>
+                    <th>
+                        <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
+        toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
+        departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
+                           th:href="@{'/?sortBy=platform' + ${fromCity} + ${toCity} + ${departureDate}}">Платформа</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="train : ${trains}">
+                    <td th:text="${train.number}"></td>
+                    <td th:text="${train.fromCity}"></td>
+                    <td th:text="${train.toCity}"></td>
+                    <td th:text="${train.departureDate}"></td>
+                    <td th:text="${train.arrivalDate}"></td>
+                    <td th:text="${train.departureTime}"></td>
+                    <td th:text="${train.arrivalTime}"></td>
+                    <td th:text="${train.platform}"></td>
+                    <td>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <form th:action="@{/update-form/{id}(id=${train.id})}" method="get" style="display: inline;">
+                                <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-pencil"></i></button>
+                            </form>
+
+                            <form th:action="@{/delete-train/{id}(id=${train.id})}" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-outline-danger"><i class="bi bi-x"></i></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

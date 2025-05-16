@@ -3,7 +3,7 @@
 <body>
 <form th:action="@{/register}" th:object="${user}" method="post">
     <input type="text" th:field="*{username}" placeholder="Логин">
-    <input type="phone" th:field="*{phone}" placeholder="Телефон">
+    <input type="tel" th:field="*{phone}" placeholder="+7 (XXX) XXX-XX-XX">
     <input type="email" th:field="*{email}" placeholder="Email">
     <input type="password" th:field="*{password}" placeholder="Пароль">
 
