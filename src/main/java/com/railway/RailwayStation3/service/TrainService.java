@@ -57,4 +57,13 @@ public class TrainService {
         return trainRepository.findAll(sort);
 
     }
+
+    public List<String> getAllUniqueFromCities() {
+        return trainRepository.findDistinctFromCities();
+    }
+
+
+    public List<String> getAllUniqueToCities() {
+        return trainRepository.findDistinctToCities();
+    }
 }

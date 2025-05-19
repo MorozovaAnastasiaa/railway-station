@@ -8,7 +8,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -36,10 +38,31 @@ public class AdminController {
         return "redirect:/";
     }
 
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("/delete-train/{id}")
+//    public String deleteTrain(@PathVariable("id") Long id) {
+//        trainService.deleteTrain(id);
+//        return "redirect:/";
+//    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/delete-train/{id}")
-    public String deleteTrain(@PathVariable("id") Long id) {
+    public String deleteTrain(
+            @PathVariable("id") Long id,
+            @RequestParam(required = false) String fromCity,
+            @RequestParam(required = false) String toCity,
+            @RequestParam(required = false) LocalDate departureDate,
+            @RequestParam(required = false, defaultValue = "id") String sortBy,
+            RedirectAttributes redirectAttributes) {
+
         trainService.deleteTrain(id);
+
+        // Сохраняем параметры для редиректа
+        redirectAttributes.addAttribute("fromCity", fromCity);
+        redirectAttributes.addAttribute("toCity", toCity);
+        redirectAttributes.addAttribute("departureDate", departureDate);
+        redirectAttributes.addAttribute("sortBy", sortBy);
+
         return "redirect:/";
     }
 

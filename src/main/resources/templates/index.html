@@ -26,22 +26,40 @@
                     <h2 class="card-title mb-4 text-light">Укажите маршрут и дату поездки, чтобы узнать расписание</h2>
                     <form th:action="@{/}" method="get" class="mb-4">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="fromCity" th:value="${param.fromCity}" placeholder="Город отправления">
+                            <input list="fromCities"
+                                   class="form-control"
+                                   name="fromCity"
+                                   th:value="${param.fromCity}"
+                                   placeholder="Город отправления"
+                                   autocomplete="off">
+                            <datalist id="fromCities">
+                                <option th:each="city : ${allFromCities}" th:value="${city}"></option>
+                            </datalist>
 
                             <span class="input-group-text bg-transparent border-0 px-2">
                                     <i class="bi bi-arrow-right text-white"></i>
                             </span>
-                            <input type="text" class="form-control" name="toCity" th:value="${param.toCity}" placeholder="Город прибытия">
+
+                            <input list="toCities"
+                                   class="form-control"
+                                   name="toCity"
+                                   th:value="${param.toCity}"
+                                   placeholder="Город прибытия"
+                                   autocomplete="off">
+                            <datalist id="toCities">
+                                <option th:each="city : ${allToCities}" th:value="${city}"></option>
+                            </datalist>
 
                             <span class="input-group-text bg-transparent text-white border-0">Дата:</span>
+
                             <input type="date" class="form-control" name="departureDate" th:value="${param.departureDate}">
 
                             <button type="submit" class="btn btn-outline-light">
                                 <i class="bi bi-funnel"></i> Применить
                             </button>
-                                <a th:href="@{/}" class="btn btn-outline-light">
-                                    <i class="bi bi-x-circle"></i> Сбросить
-                                </a>
+                            <a th:href="@{/}" class="btn btn-outline-light">
+                                <i class="bi bi-x-circle"></i> Сбросить
+                            </a>
                         </div>
                     </form>
                 </div>
@@ -65,7 +83,9 @@
                         <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
         toCity=${param.toCity != null ? '&toCity=' + param.toCity[0] : ''},
         departureDate=${param.departureDate != null ? '&departureDate=' + param.departureDate[0] : ''}"
-                           th:href="@{'/?sortBy=number' + ${fromCity} + ${toCity} + ${departureDate}}">Номер поезда</a>
+                           th:href="@{'/?sortBy=number' + ${fromCity} + ${toCity} + ${departureDate}}">Номер поезда
+                            <i class="bi bi-sort-down"></i>
+                        </a>
                     </th>
                     <th>
                         <a class="text-decoration-none text-dark" th:with="fromCity=${param.fromCity != null ? '&fromCity=' + param.fromCity[0] : ''},
@@ -128,6 +148,10 @@
                             </form>
 
                             <form th:action="@{/delete-train/{id}(id=${train.id})}" method="post" style="display: inline;">
+                                <input type="hidden" name="fromCity" th:value="${param.fromCity}">
+                                <input type="hidden" name="toCity" th:value="${param.toCity}">
+                                <input type="hidden" name="departureDate" th:value="${param.departureDate}">
+                                <input type="hidden" name="sortBy" th:value="${param.sortBy}">
                                 <button type="submit" class="btn btn-outline-primary"><i class="bi bi-x"></i></button>
                             </form>
                         </div>

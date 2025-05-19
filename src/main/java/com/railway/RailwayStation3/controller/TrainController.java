@@ -33,7 +33,12 @@ public class TrainController {
 
         List<Train> trains = trainService.findByFilters(fromCity, toCity, departureDate, sortBy);
 
+        List<String> allFromCities = trainService.getAllUniqueFromCities();
+        List<String> allToCities = trainService.getAllUniqueToCities();
+
         model.addAttribute("trains", trains);
+        model.addAttribute("allFromCities", allFromCities);
+        model.addAttribute("allToCities", allToCities);
         model.addAttribute("fromCity", fromCity);
         model.addAttribute("toCity", toCity);
         model.addAttribute("departureDate", departureDate);

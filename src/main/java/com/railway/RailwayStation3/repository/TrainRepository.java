@@ -21,4 +21,10 @@ public interface TrainRepository extends JpaRepository<Train, Long> {
     @Query("SELECT CONCAT(t.fromCity, ' → ', t.toCity) as direction, COUNT(t) as count " +
             "FROM Train t GROUP BY direction ORDER BY count DESC")
     List<Object[]> findPopularDirections();
+
+    @Query("SELECT DISTINCT t.fromCity FROM Train t ORDER BY t.fromCity")
+    List<String> findDistinctFromCities();
+
+    @Query("SELECT DISTINCT t.toCity FROM Train t ORDER BY t.toCity")
+    List<String> findDistinctToCities();
 }
