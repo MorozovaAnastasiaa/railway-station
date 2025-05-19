@@ -2,49 +2,25 @@ package com.railway.RailwayStation3.controller;
 
 import com.railway.RailwayStation3.repository.Train;
 import com.railway.RailwayStation3.repository.User;
-import com.railway.RailwayStation3.service.StatsService;
 import com.railway.RailwayStation3.service.TrainService;
 import com.railway.RailwayStation3.service.UserService;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-public class TrainViewController {
+public class AdminController {
     private final TrainService trainService;
     private final UserService userService;
-    private final StatsService statsService;
 
-    public TrainViewController(TrainService trainService, UserService userService, StatsService statsService) {
+    public AdminController(TrainService trainService, UserService userService) {
         this.trainService = trainService;
         this.userService = userService;
-        this.statsService = statsService;
     }
 
-    @GetMapping
-    public String findAll(
-            @RequestParam(required = false) String fromCity,
-            @RequestParam(required = false) String toCity,
-            @RequestParam(required = false) LocalDate departureDate,
-            @RequestParam(required = false, defaultValue = "id") String sortBy,
-            Model model) {
-
-        List<Train> trains = trainService.findByFilters(fromCity, toCity, departureDate, sortBy);
-
-        model.addAttribute("trains", trains);
-        model.addAttribute("fromCity", fromCity);
-        model.addAttribute("toCity", toCity);
-        model.addAttribute("departureDate", departureDate);
-        model.addAttribute("sortBy", sortBy);
-
-        return "index";
-    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/add-form")
@@ -98,17 +74,4 @@ public class TrainViewController {
         userService.updateUserRole(userId, newRole);
         return "redirect:/admin";
     }
-
-    @GetMapping("/stats")
-    public String statsPage(Model model) {
-        model.addAttribute("stats", statsService.getSystemStats());
-        return "stats";
-    }
-
-    @GetMapping("/about")
-    public String showAboutAuthor() {
-        return "/about";
-    }
-
-
 }
