@@ -132,6 +132,13 @@
                 </tr>
             </thead>
             <tbody>
+                <tr th:if="${trains.empty}">
+                    <td colspan="9" class="text-center text-muted">
+                        <i class="bi bi-exclamation-circle"></i>
+                        <h5 class="mt-2">Расписание поездов отсутствует</h5>
+                        <p>Пожалуйста, попробуйте изменить параметры поиска</p>
+                    </td>
+                </tr>
                 <tr th:each="train : ${trains}">
                     <td th:text="${train.number}"></td>
                     <td th:text="${train.fromCity}"></td>

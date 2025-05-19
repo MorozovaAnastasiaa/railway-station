@@ -1,21 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/simplex/bootstrap.min.css" rel="stylesheet">
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/simplex/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
 <body>
-<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/"><i class="bi bi-train-front"></i>TudaSuda</a>
-<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-        <div class="collapse navbar-collapse" id="navbarColor02">
+        <a class="navbar-brand" href="/">Tuda <i class="bi bi-train-front"></i> Suda</a>
+
+        <!-- Кнопка для мобильных устройств -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/}">Главная
-                        <span class="visually-hidden">(current)</span>
-                    </a>
+                    <a class="nav-link active" th:href="@{/}">Главная</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/stats}">Статистика</a>
@@ -27,7 +32,16 @@
                     <a class="nav-link" th:href="@{/about}">Об авторе</a>
                 </li>
             </ul>
+
             <ul class="navbar-nav">
+                <!-- Имя пользователя -->
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <span class="nav-link text-light">
+                        <i class="bi bi-person-circle"></i>
+                        <span sec:authentication="name"></span>
+                    </span>
+                </li>
+
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a class="nav-link" th:href="@{/login}">Вход</a>
                 </li>
@@ -39,25 +53,12 @@
                         <button class="btn btn-link nav-link" type="submit">Выйти</button>
                     </form>
                 </li>
-
             </ul>
         </div>
     </div>
 </nav>
-<!--            <ul class="navbar-nav">-->
-<!--                <li class="nav-item" sec:authorize="!isAuthenticated()">-->
-<!--                    <a class="nav-link" th:href="@{/login}">Вход</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item" sec:authorize="!isAuthenticated()">-->
-<!--                    <a class="nav-link" th:href="@{/register}">Регистрация</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item" sec:authorize="isAuthenticated()">-->
-<!--                    <form th:action="@{/logout}" method="post">-->
-<!--                        <button class="btn btn-link nav-link" type="submit">Выйти</button>-->
-<!--                    </form>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--    </div>-->
-<!--</nav>-->
+
+<!-- Подключение Bootstrap JS для работы меню -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

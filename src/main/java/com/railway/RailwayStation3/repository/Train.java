@@ -2,6 +2,7 @@ package com.railway.RailwayStation3.repository;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,12 +26,14 @@ public class Train {
 
     private String platform;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "departure_date")
     private LocalDate departureDate;
 
     @Column(name = "departure_time")
     private LocalTime departureTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "arrival_date")
     private LocalDate arrivalDate;
 
