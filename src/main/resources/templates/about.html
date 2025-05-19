@@ -1,16 +1,74 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Об авторе</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/simplex/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body class="bg-dark text-light">
-    <div th:replace="~{fragments/navbar}"></div>
-    <h2>Морозова Анастасия</h2>
-    <h5>бла бла бла...</h5>
+<div th:replace="~{fragments/navbar}"></div>
 
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h3 class="card-title text-center px-2"><i class="bi bi-person-badge"></i> Об авторе проекта</h3>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <h3>Морозова Анастасия Юрьевна</h3>
+                        <p class="text-muted">Студент группы ТРПО23-4</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5><i class="bi bi-building"></i> Учебное заведение</h5>
+                        <p class="ps-3">Финансовый универcитет</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5><i class="bi bi-envelope-at"></i> Контактные данные</h5>
+                        <ul class="list-unstyled ps-3">
+                            <li><i class="bi bi-envelope me-2"></i> nastemorozovoi@gmail.com</li>
+                            <li><i class="bi bi-github me-2"></i> github.com/MorozovaAnastasiaa</li>
+                        </ul>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5><i class="bi bi-code-square"></i> Опыт работы с технологиями</h5>
+                        <div class="ps-3">
+                            <p>В проекте использовались следующие технологии:</p>
+                            <div class="d-flex flex-wrap gap-2">
+                                <span class="badge bg-primary">Java</span>
+                                <span class="badge bg-secondary">Spring Boot</span>
+                                <span class="badge bg-success">Thymeleaf</span>
+                                <span class="badge bg-danger">Bootstrap</span>
+                                <span class="badge bg-warning text-dark">PostgreSQL</span>
+                                <span class="badge bg-info text-dark">HTML5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h5><i class="bi bi-calendar-range"></i> Сроки работы над проектом</h5>
+                        <div class="ps-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Начало:</strong> 29 апреля 2025 г.</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Завершение:</strong> 15 мая 2025 г.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

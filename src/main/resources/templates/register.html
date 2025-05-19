@@ -1,15 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<body>
-<form th:action="@{/register}" th:object="${user}" method="post">
-    <input type="text" th:field="*{username}" placeholder="Логин">
-    <input type="tel" th:field="*{phone}" placeholder="+7 (XXX) XXX-XX-XX">
-    <input type="email" th:field="*{email}" placeholder="Email">
-    <input type="password" th:field="*{password}" placeholder="Пароль">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/simplex/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
 
+<body class="bg-dark text-light">
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="col-md-6 col-lg-5">
+        <div class="row justify-content-center">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4">Регистрация</h2>
 
-    <button type="submit">Зарегистрироваться</button>
-    <p th:if="${error}" th:text="${error}" style="color:red;"></p>
-</form>
+                    <form th:action="@{/register}" th:object="${user}" method="post">
+                        <!-- Логин -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">
+                                <i class="bi bi-person"></i> Логин
+                            </label>
+                            <input type="text" class="form-control" id="username"
+                                   th:field="*{username}"
+                                   placeholder="Введите логин" required>
+                        </div>
+
+                        <!-- Телефон -->
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">
+                                <i class="bi bi-telephone"></i> Телефон
+                            </label>
+                            <input type="tel" class="form-control" id="phone"
+                                   th:field="*{phone}"
+                                   placeholder="+7 (XXX) XXX-XX-XX" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                <i class="bi bi-envelope"></i> Email
+                            </label>
+                            <input type="email" class="form-control" id="email"
+                                   th:field="*{email}"
+                                   placeholder="Введите email" required>
+                        </div>
+
+                        <!-- Пароль -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                <i class="bi bi-lock"></i> Пароль
+                            </label>
+                            <input type="password" class="form-control" id="password"
+                                   th:field="*{password}"
+                                   placeholder="Введите пароль" required>
+                        </div>
+
+                        <!-- Кнопка регистрации -->
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                        </div>
+
+                        <!-- Ссылка на вход -->
+                        <div class="text-center">
+                            Уже есть аккаунт?
+                            <a th:href="@{/login}" class="btn btn-link">Войти</a>
+                        </div>
+
+                        <!-- Сообщение об ошибке -->
+                        <div th:if="${error}" class="alert alert-danger mt-3" role="alert">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <span th:text="${error}"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
