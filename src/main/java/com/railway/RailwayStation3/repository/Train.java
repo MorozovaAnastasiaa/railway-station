@@ -24,7 +24,11 @@ public class Train {
     @Column(name="to_city")
     private String toCity;
 
-    private String platform;
+    @Column(name="departure_station")
+    private String departureStation;
+
+    @Column(name="arrival_station")
+    private String arrivalStation;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "departure_date")
@@ -40,17 +44,37 @@ public class Train {
     @Column(name = "arrival_time")
     private LocalTime arrivalTime;
 
-    public Train(Long id, String number, String fromCity, String toCity, LocalDateTime departureTime, LocalDateTime arrivalTime, String platform) {
+    public Train(Long id, String number, String fromCity, String toCity, String departureStation, String arrivalStation, LocalDate departureDate, LocalTime departureTime, LocalDate arrivalDate, LocalTime arrivalTime) {
         this.id = id;
         this.number = number;
         this.fromCity = fromCity;
         this.toCity = toCity;
-        this.platform = platform;
+        this.departureStation = departureStation;
+        this.arrivalStation = arrivalStation;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.arrivalDate = arrivalDate;
+        this.arrivalTime = arrivalTime;
     }
 
     public Train() {
     }
 
+    public String getDepartureStation() {
+        return departureStation;
+    }
+
+    public void setDepartureStation(String departureStation) {
+        this.departureStation = departureStation;
+    }
+
+    public String getArrivalStation() {
+        return arrivalStation;
+    }
+
+    public void setArrivalStation(String arrivalStation) {
+        this.arrivalStation = arrivalStation;
+    }
 
     public Long getId() {
         return id;
@@ -82,14 +106,6 @@ public class Train {
 
     public void setToCity(String toCity) {
         this.toCity = toCity;
-    }
-
-    public String getPlatform() {
-        return platform;
-    }
-
-    public void setPlatform(String platform) {
-        this.platform = platform;
     }
 
     public LocalDate getDepartureDate() {
@@ -131,7 +147,6 @@ public class Train {
                 ", number='" + number + '\'' +
                 ", fromcity='" + fromCity + '\'' +
                 ", tocity='" + toCity + '\'' +
-                ", platform='" + platform + '\'' +
                 '}';
     }
 }

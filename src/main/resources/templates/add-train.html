@@ -39,31 +39,53 @@
                                        required>
                             </div>
 
-                            <!-- Станция отправления -->
-                            <div class="input-group input-group-sm mb-3">
-                                <span class="input-group-text">Станция отправления:</span>
-                                <input type="text" class="form-control"
-                                       id="fromCity" name="fromCity"
-                                       th:value="${train != null} ? ${train.fromCity} : ''"
-                                       required>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text">Город отправления:</span>
+                                        <input type="text" class="form-control"
+                                               id="fromCity" name="fromCity"
+                                               th:value="${train != null} ? ${train.fromCity} : ''"
+                                               required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text">Город прибытия:</span>
+                                        <input type="text" class="form-control"
+                                               id="toCity" name="toCity"
+                                               th:value="${train != null} ? ${train.toCity} : ''"
+                                               required>
+                                    </div>
+                                </div>
                             </div>
 
-
-
-                            <!-- Станция прибытия -->
-                            <div class="input-group input-group-sm mb-3">
-                                <span class="input-group-text">Станция отправления:</span>
-                                <input type="text" class="form-control"
-                                       id="toCity" name="toCity"
-                                       th:value="${train != null} ? ${train.toCity} : ''"
-                                       required>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text">Вокзал отправления:</span>
+                                        <input type="text" class="form-control"
+                                               id="departureStation" name="departureStation"
+                                               th:value="${train != null} ? ${train.departureStation} : ''"
+                                               required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text">Вокзал прибытия:</span>
+                                        <input type="text" class="form-control"
+                                               id="arrivalStation" name="arrivalStation"
+                                               th:value="${train != null} ? ${train.arrivalStation} : ''"
+                                               required>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Дата и время отправления -->
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div class="input-group input-group-sm mb-3">
-                                        <span class="input-group-text">Станция отправления:</span>
+                                        <span class="input-group-text">Дата отправления:</span>
                                         <input type="date" class="form-control"
                                                id="departureDate" name="departureDate"
                                                th:value="${train != null} ? ${train.departureDate} : ''"
@@ -72,10 +94,10 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group input-group-sm mb-3">
-                                        <span class="input-group-text">Станция отправления:</span>
-                                        <input type="time" class="form-control"
-                                               id="departureTime" name="departureTime"
-                                               th:value="${train != null} ? ${train.departureTime} : ''"
+                                        <span class="input-group-text">Дата прибытия:</span>
+                                        <input type="date" class="form-control"
+                                               id="arrivalDate" name="arrivalDate"
+                                               th:value="${train != null} ? ${train.arrivalDate} : ''"
                                                required>
                                     </div>
                                 </div>
@@ -85,22 +107,22 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div class="input-group input-group-sm">
-                                        <span class="input-group-text">Дата прибытия:</span>
-                                        <input type="date" class="form-control" id="arrivalDate" name="arrivalDate" th:field="*{arrivalDate}" required>
+                                        <span class="input-group-text">Время отправления:</span>
+                                        <input type="time" class="form-control"
+                                               id="departureTime" name="departureTime"
+                                               th:value="${train != null} ? ${train.departureTime} : ''"
+                                               required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text">Время прибытия:</span>
-                                        <input type="time" class="form-control" id="arrivalTime" name="arrivalTime" th:field="*{arrivalTime}" required>
+                                        <input type="time" class="form-control"
+                                               id="arrivalTime" name="arrivalTime"
+                                               th:value="${train != null} ? ${train.arrivalTime} : ''"
+                                               required>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Платформа -->
-                            <div class="input-group input-group-sm mb-4">
-                                <span class="input-group-text">Платформа:</span>
-                                <input type="text" class="form-control" id="platform" name="platform" th:field="*{platform}">
                             </div>
 
                             <!-- Кнопки -->

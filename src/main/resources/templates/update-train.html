@@ -26,63 +26,75 @@
                             <input type="text" class="form-control" id="number" th:field="*{number}" required>
                         </div>
 
-                        <!-- Станция отправления -->
-                        <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text">Откуда:</span>
-                            <input type="text" class="form-control" id="fromCity" th:field="*{fromCity}" required>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Город отправления:</span>
+                                    <input type="text" class="form-control" id="fromCity" th:field="*{fromCity}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Город прибытия:</span>
+                                    <input type="text" class="form-control" id="toCity" th:field="*{toCity}" required>
+                                </div>
+                            </div>
                         </div>
 
-                        <!-- Станция прибытия -->
-                        <div class="input-group input-group-sm mb-3">
-                            <span class="input-group-text">Куда:</span>
-                            <input type="text" class="form-control" id="toCity" th:field="*{toCity}" required>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Вокзал отправления:</span>
+                                    <input type="text" class="form-control" id="departureStation" th:field="*{departureStation}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Вокзал прибытия:</span>
+                                    <input type="text" class="form-control" id="arrivalStation" th:field="*{arrivalStation}" required>
+                                </div>
+                            </div>
                         </div>
 
-                            <!-- Дата и время отправления -->
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text">Дата отправления:</span>
-                                        <input type="date" class="form-control" id="departureDate" th:field="*{departureDate}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text">Время отправления:</span>
-                                        <input type="time" class="form-control" id="departureTime" th:field="*{departureTime}" required>
-                                    </div>
+                        <!-- Дата и время отправления -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Дата отправления:</span>
+                                    <input type="date" class="form-control" id="departureDate" th:field="*{departureDate}" required>
                                 </div>
                             </div>
-
-                            <!-- Дата и время прибытия -->
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text">Дата прибытия:</span>
-                                        <input type="date" class="form-control" id="arrivalDate" th:field="*{arrivalDate}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text">Время прибытия:</span>
-                                        <input type="time" class="form-control" id="arrivalTime" th:field="*{arrivalTime}" required>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Дата прибытия:</span>
+                                    <input type="date" class="form-control" id="arrivalDate" th:field="*{arrivalDate}" required>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Платформа -->
-                            <div class="input-group input-group-sm mb-4">
-                                <span class="input-group-text">Платформа:</span>
-                                <input type="text" class="form-control" id="platform" th:field="*{platform}">
+                        <!-- Дата и время прибытия -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Время отправления:</span>
+                                    <input type="time" class="form-control" id="departureTime" th:field="*{departureTime}" required>
+                                </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text">Время прибытия:</span>
+                                    <input type="time" class="form-control" id="arrivalTime" th:field="*{arrivalTime}" required>
+                                </div>
+                            </div>
+                        </div>
 
-                            <!-- Кнопки -->
-                            <button type="submit" class="btn btn-success btn-sm">
-                                Сохранить
-                            </button>
-                            <a th:href="@{/}" class="btn btn-outline-secondary btn-sm">
-                                Назад
-                            </a>
+                        <!-- Кнопки -->
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Сохранить
+                        </button>
+                        <a th:href="@{/}" class="btn btn-outline-secondary btn-sm">
+                            Назад
+                        </a>
                         </form>
                     </div>
                 </div>
