@@ -32,7 +32,7 @@ public class AuthController {
     public String registerUser(@ModelAttribute("user") User user, Model model) {
         try {
             userService.registerUser(user);
-            return "redirect:/login?registered"; // Перенаправление после успеха
+            return "redirect:/login?registered";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             return "register";

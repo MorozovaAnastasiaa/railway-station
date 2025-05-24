@@ -24,14 +24,30 @@ public class ApiController {
         return new ResponseEntity<>(trainService.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Train> createTrain(@RequestBody Train train) {
-        return new ResponseEntity<>(trainService.createTrain(train), HttpStatus.OK);
+    @PostMapping("/add")
+    public ResponseEntity<?> createTrain(@RequestBody Train train) {
+        try {
+            Train savedTrain = trainService.createTrain(train);
+            return new ResponseEntity<>(savedTrain, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTrain(@PathVariable Long id) {
         trainService.deleteTrain(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateTrain(@PathVariable Long id, @RequestBody Train train) {
+        try {
+            train.setId(id);
+            Train updatedTrain = trainService.createTrain(train);
+            return new ResponseEntity<>(updatedTrain, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

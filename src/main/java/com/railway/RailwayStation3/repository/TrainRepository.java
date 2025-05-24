@@ -27,4 +27,6 @@ public interface TrainRepository extends JpaRepository<Train, Long> {
 
     @Query("SELECT DISTINCT t.toCity FROM Train t ORDER BY t.toCity")
     List<String> findDistinctToCities();
+
+    boolean existsByNumber(String number);
 }

@@ -24,7 +24,6 @@ public class DataInitializer implements CommandLineRunner {
                 "ROLE_ADMIN"
         );
 
-        // Создаём обычного пользователя
         createUserIfNotExists(
                 "user1",
                 "user1",

@@ -27,23 +27,26 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/add-form")
     public String showAddForm(Model model) {
-        model.addAttribute("train", new Train());
+        if (!model.containsAttribute("train")) {
+            model.addAttribute("train", new Train());
+        }
         return "add-train";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/add-train")
-    public String addTrain(@ModelAttribute Train train) {
-        trainService.createTrain(train);
-        return "redirect:/";
+    public String addTrain(@ModelAttribute Train train,
+                           RedirectAttributes redirectAttributes) {
+        try {
+            Train savedTrain = trainService.createTrain(train);
+            redirectAttributes.addFlashAttribute("success", "Поезд успешно добавлен");
+            return "redirect:/";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("train", train); // Сохраняем введенные данные
+            return "redirect:/add-form";
+        }
     }
-
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping("/delete-train/{id}")
-//    public String deleteTrain(@PathVariable("id") Long id) {
-//        trainService.deleteTrain(id);
-//        return "redirect:/";
-//    }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/delete-train/{id}")
@@ -76,10 +79,19 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/update-train/{id}")
-    public String updateTrain(@ModelAttribute Train train, @PathVariable("id") Long id) {
-        train.setId(id);
-        trainService.createTrain(train);
-        return "redirect:/";
+    public String updateTrain(@ModelAttribute Train train,
+                              @PathVariable("id") Long id,
+                              RedirectAttributes redirectAttributes) {
+        try {
+            train.setId(id);
+            trainService.updateTrain(train); // Метод может выбросить IllegalArgumentException
+            redirectAttributes.addFlashAttribute("success", "Поезд успешно обновлён");
+            return "redirect:/";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("train", train); // Сохраняем введенные данные
+            return "redirect:/edit-form/" + id; // Страница редактирования
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -13,6 +13,18 @@
     <div class="container">
         <div class="row justify-content-center mt-5">
             <div class="col-md-6 col-lg-6">
+                <!-- Сообщение об ошибке -->
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+                    <span th:text="${error}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <!-- Сообщение об успехе -->
+                <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
+                    <span th:text="${success}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
                 <div class="card shadow mt-5">
                     <div class="card-body p-4">
                         <h2 class="card-title text-center mb-4">Добавить новый поезд</h2>
@@ -21,33 +33,50 @@
                             <!-- Номер поезда -->
                             <div class="input-group input-group-sm mb-3">
                                 <span class="input-group-text">Номер поезда:</span>
-                                <input type="text" class="form-control" id="number" name="number" th:field="*{number}" required>
+                                <input type="text" class="form-control"
+                                       id="number" name="number"
+                                       th:value="${train != null} ? ${train.number} : ''"
+                                       required>
                             </div>
 
                             <!-- Станция отправления -->
                             <div class="input-group input-group-sm mb-3">
                                 <span class="input-group-text">Станция отправления:</span>
-                                <input type="text" class="form-control" id="fromCity" name="fromCity" th:field="*{fromCity}" required>
+                                <input type="text" class="form-control"
+                                       id="fromCity" name="fromCity"
+                                       th:value="${train != null} ? ${train.fromCity} : ''"
+                                       required>
                             </div>
+
+
 
                             <!-- Станция прибытия -->
                             <div class="input-group input-group-sm mb-3">
-                                <span class="input-group-text">Станция прибытия:</span>
-                                <input type="text" class="form-control" id="toCity" name="toCity" th:field="*{toCity}" required>
+                                <span class="input-group-text">Станция отправления:</span>
+                                <input type="text" class="form-control"
+                                       id="toCity" name="toCity"
+                                       th:value="${train != null} ? ${train.toCity} : ''"
+                                       required>
                             </div>
 
                             <!-- Дата и время отправления -->
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text">Дата отправления:</span>
-                                        <input type="date" class="form-control" id="departureDate" name="departureDate" th:field="*{departureDate}" required>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text">Станция отправления:</span>
+                                        <input type="date" class="form-control"
+                                               id="departureDate" name="departureDate"
+                                               th:value="${train != null} ? ${train.departureDate} : ''"
+                                               required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text">Время отправления:</span>
-                                        <input type="time" class="form-control" id="departureTime" name="departureTime" th:field="*{departureTime}" required>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text">Станция отправления:</span>
+                                        <input type="time" class="form-control"
+                                               id="departureTime" name="departureTime"
+                                               th:value="${train != null} ? ${train.departureTime} : ''"
+                                               required>
                                     </div>
                                 </div>
                             </div>
