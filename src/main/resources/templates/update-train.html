@@ -20,6 +20,11 @@
                     <form th:action="@{/update-train/{id}(id=${train.id})}" th:object="${train}" method="post" class="mb-4">
                         <input type="hidden" th:field="*{id}">
 
+                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+                            <span th:text="${error}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+
                         <!-- Номер поезда -->
                         <div class="input-group input-group-sm mb-3">
                             <span class="input-group-text">Номер поезда:</span>

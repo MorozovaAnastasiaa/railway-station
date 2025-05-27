@@ -2,6 +2,7 @@ package com.railway.RailwayStation3.service;
 
 import com.railway.RailwayStation3.repository.User;
 import com.railway.RailwayStation3.repository.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,6 +42,10 @@ public class UserService implements UserDetailsService {
             throw new IllegalArgumentException("Email уже используется");
         }
 
+        if (user.getPhone() == null || !user.getPhone().matches("\\d{10}")) {
+            throw new IllegalArgumentException("Номер телефона должен содержать ровно 10 цифр без дополнительных символов");
+        }
+
         if (userRepository.existsByPhone(user.getPhone())) {
             throw new IllegalArgumentException("Телефон уже используется");
         }
@@ -59,9 +64,18 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void updateUserRole(Long userId, String newRole) {
+    public void updateUserRole(Long userId, String newRole, Authentication authentication) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Пользователь не найден"));
+
+        String currentUsername = authentication.getName();
+        User currentUser = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new IllegalArgumentException("Current user not found"));
+
+        // Запрещаем администратору изменять свою собственную роль
+        if (currentUser.getId().equals(userId)) {
+            throw new IllegalArgumentException("Администратор не может изменить свою собственную роль");
+        }
         user.setRole(newRole);
         userRepository.save(user);
     }

@@ -6,7 +6,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TrainService {
@@ -41,6 +43,10 @@ public class TrainService {
             throw new IllegalArgumentException("Дата прибытия не может быть раньше даты отправления");
         }
 
+        if (train.getDepartureDate().equals(train.getArrivalDate()) && train.getArrivalTime().isBefore(train.getDepartureTime())) {
+            throw new IllegalArgumentException("Время прибытия не может быть раньше времени отправления");
+        }
+
         return trainRepository.save(train);
     }
 
@@ -49,6 +55,16 @@ public class TrainService {
     }
 
     public Train updateTrain(Train train) {
+
+        Train existingTrain = trainRepository.findById(train.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Поезд не найден"));
+
+        if (!existingTrain.getNumber().equals(train.getNumber())) {
+            if (trainRepository.existsByNumber(train.getNumber())) {
+                throw new IllegalArgumentException("Поезд с таким номером уже существует");
+            }
+        }
+
         // Проверка даты отправления
         if (train.getDepartureDate().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("Дата отправления не может быть в прошлом");
@@ -57,6 +73,10 @@ public class TrainService {
         // Проверка даты прибытия
         if (train.getArrivalDate().isBefore(train.getDepartureDate())) {
             throw new IllegalArgumentException("Дата прибытия не может быть раньше даты отправления");
+        }
+
+        if (train.getDepartureDate().equals(train.getArrivalDate()) && train.getArrivalTime().isBefore(train.getDepartureTime())) {
+            throw new IllegalArgumentException("Время прибытия не может быть раньше времени отправления");
         }
 
         return trainRepository.save(train);
@@ -92,5 +112,46 @@ public class TrainService {
 
     public List<String> getAllUniqueToCities() {
         return trainRepository.findDistinctToCities();
+    }
+
+    public Train partialUpdate(Long id, Map<String, Object> updates) {
+        Train train = trainRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Поезд не найден"));
+
+        updates.forEach((key, value) -> {
+            switch (key) {
+                case "number":
+                    train.setNumber((String) value);
+                    break;
+                case "fromCity":
+                    train.setFromCity((String) value);
+                    break;
+                case "toCity":
+                    train.setToCity((String) value);
+                    break;
+                case "departureStation":
+                    train.setDepartureStation((String) value);
+                    break;
+                case "arrivalStation":
+                    train.setArrivalStation((String) value);
+                    break;
+                case "departureDate":
+                    train.setDepartureDate(LocalDate.parse((String) value));
+                    break;
+                case "arrivalDate":
+                    train.setArrivalDate(LocalDate.parse((String) value));
+                    break;
+                case "departureTime":
+                    train.setDepartureTime(LocalTime.parse((String) value));
+                    break;
+                case "arrivalTime":
+                    train.setArrivalTime(LocalTime.parse((String) value));
+                    break;
+                default:
+                    throw new IllegalArgumentException("Неизвестное поле: " + key);
+            }
+        });
+
+        return trainRepository.save(train);
     }
 }

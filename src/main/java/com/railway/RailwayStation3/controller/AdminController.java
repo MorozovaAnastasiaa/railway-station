@@ -5,6 +5,7 @@ import com.railway.RailwayStation3.repository.User;
 import com.railway.RailwayStation3.service.TrainService;
 import com.railway.RailwayStation3.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -90,7 +91,7 @@ public class AdminController {
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             redirectAttributes.addFlashAttribute("train", train); // Сохраняем введенные данные
-            return "redirect:/edit-form/" + id; // Страница редактирования
+            return "redirect:/update-form/" + id; // Страница редактирования
         }
     }
 
@@ -105,8 +106,18 @@ public class AdminController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/admin/update-role")
     public String updateUserRole(@RequestParam Long userId,
-                                 @RequestParam String newRole) {
-        userService.updateUserRole(userId, newRole);
-        return "redirect:/admin";
+                                 @RequestParam String newRole,
+                                 Authentication authentication,
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            userService.updateUserRole(userId, newRole, authentication);
+            return "redirect:/admin";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+//            redirectAttributes.addFlashAttribute("train", train);
+            return "redirect:/admin";
+        }
+
+
     }
 }
