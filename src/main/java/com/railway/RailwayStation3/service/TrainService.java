@@ -126,19 +126,18 @@ public class TrainService {
      * @param sortBy поле для сортировки
      * @return список подходящих поездов
      */
-    public List<Train> findByFilters(
-            String fromCity,
-            String toCity,
-            LocalDate departureDate,
-            String sortBy) {
-
+    public List<Train> findByFilters(String fromCity, String toCity, LocalDate departureDate, String sortBy) {
         Sort sort = Sort.by(sortBy);
 
-        if (fromCity != null && toCity != null && departureDate != null) {
-            return trainRepository.findByFromCityAndToCityAndDepartureDate(fromCity, toCity, departureDate, sort);
+        if (fromCity == null && toCity == null && departureDate == null) {
+            return trainRepository.findAll(sort);
         }
 
-        return trainRepository.findAll(sort);
+        if (fromCity == null || toCity == null || departureDate == null) {
+            throw new IllegalArgumentException("Для фильтрации необходимо заполнить все поля");
+        }
+
+        return trainRepository.findByFromCityAndToCityAndDepartureDate(fromCity, toCity, departureDate, sort);
     }
 
     /**

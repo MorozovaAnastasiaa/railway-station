@@ -7,6 +7,7 @@ import com.railway.RailwayStation3.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -44,20 +45,27 @@ public class TrainController {
             @RequestParam(required = false) String toCity,
             @RequestParam(required = false) LocalDate departureDate,
             @RequestParam(required = false, defaultValue = "id") String sortBy,
+            RedirectAttributes redirectAttributes,
             Model model) {
 
-        List<Train> trains = trainService.findByFilters(fromCity, toCity, departureDate, sortBy);
-        List<String> allFromCities = trainService.getAllUniqueFromCities();
-        List<String> allToCities = trainService.getAllUniqueToCities();
+        try {
+            List<Train> trains = trainService.findByFilters(fromCity, toCity, departureDate, sortBy);
+            List<String> allFromCities = trainService.getAllUniqueFromCities();
+            List<String> allToCities = trainService.getAllUniqueToCities();
 
-        model.addAttribute("trains", trains);
-        model.addAttribute("allFromCities", allFromCities);
-        model.addAttribute("allToCities", allToCities);
-        model.addAttribute("fromCity", fromCity);
-        model.addAttribute("toCity", toCity);
-        model.addAttribute("departureDate", departureDate);
-        model.addAttribute("sortBy", sortBy);
+            model.addAttribute("trains", trains);
+            model.addAttribute("allFromCities", allFromCities);
+            model.addAttribute("allToCities", allToCities);
+            model.addAttribute("fromCity", fromCity);
+            model.addAttribute("toCity", toCity);
+            model.addAttribute("departureDate", departureDate);
+            model.addAttribute("sortBy", sortBy);
 
-        return "index";
+            return "index";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/";
+        }
+
     }
 }
