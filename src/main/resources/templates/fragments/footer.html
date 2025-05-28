@@ -1,0 +1,38 @@
+<footer class="bg-dark text-white pt-4 pb-3 mt-auto">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="d-flex justify-content-between pt-3 mt-3 border-top border-secondary">
+
+            <!-- Логотип и описание -->
+            <div class="col-md-4 mb-3">
+                <a class="navbar-brand text-white" href="/">
+                    Tuda <i class="bi bi-train-front"></i> Suda
+                </a>
+                <p class="small">Система поиска расписаний поездов</p>
+            </div>
+
+            <!-- Навигация -->
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-2">Навигация</h6>
+                <ul class="list-unstyled small">
+                    <li><a th:href="@{/}" class="text-decoration-none text-white">Главная</a></li>
+                    <li><a th:href="@{/stats}" class="text-decoration-none text-white">Статистика</a></li>
+                    <li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}" class="text-decoration-none text-white">Пользователи</a></li>
+                    <li><a th:href="@{/about}" class="text-decoration-none text-white">Об авторе</a></li>
+                </ul>
+            </div>
+
+            <!-- Соцсети / Контакты -->
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-2">Контакты</h6>
+                <p class="small">
+                    Свяжитесь с нами:
+                </p>
+                <div>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nastemorozovoi@gmail.com" target="_blank" class="text-white me-2"><i class="bi bi-envelope"></i></a>
+                    <a href="https://github.com/MorozovaAnastasiaa" target="_blank" class="text-white me-2"><i class="bi bi-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
