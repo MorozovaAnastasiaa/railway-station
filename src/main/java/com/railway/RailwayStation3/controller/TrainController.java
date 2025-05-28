@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Контроллер для отображения расписания поездов.
+ * Поддерживает фильтрацию по городам и дате, а также сортировку.
+ */
 @Controller
 public class TrainController {
     private final TrainService trainService;
@@ -23,6 +27,17 @@ public class TrainController {
         this.statsService = statsService;
     }
 
+    /**
+     * Отображает таблицу с расписанием поездов.
+     * Может применять фильтры (город отправления, город прибытия, дата) и сортировку по любому из столбцов.
+     *
+     * @param fromCity город отправления
+     * @param toCity город прибытия
+     * @param departureDate дата отправления
+     * @param sortBy поле для сортировки (по умолчанию — id)
+     * @param model модель данных для представления
+     * @return имя шаблона "index"
+     */
     @GetMapping
     public String findAll(
             @RequestParam(required = false) String fromCity,

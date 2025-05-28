@@ -11,19 +11,54 @@ import java.util.Collections;
 @Entity
 @Table(name="users")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Имя пользователя (логин), используемое для аутентификации.
+     */
     private String username;
+
+    /**
+     * Номер телефона пользователя.
+     */
     private String phone;
+
+    /**
+     * Адрес электронной почты пользователя.
+     */
     private String email;
+
+    /**
+     * Пароль пользователя в зашифрованном виде.
+     */
     private String password;
+
+    /**
+     * Роль пользователя. По умолчанию — ROLE_USER.
+     * Может быть изменена на ROLE_ADMIN для расширенных прав.
+     */
     private String role = "ROLE_USER";
 
+    /**
+     * Константа для роли администратора.
+     * Используется для проверки доступа к защищённым частям сайта.
+     */
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
+
+    /**
+     * Константа для роли обычного пользователя.
+     */
     public static final String ROLE_USER = "ROLE_USER";
 
+    /**
+     * Возвращает список разрешений (ролей), связанных с этим пользователем.
+     * Используется Spring Security для управления доступом.
+     *
+     * @return коллекция объектов GrantedAuthority
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(this.role));

@@ -4,15 +4,17 @@ import com.railway.RailwayStation3.repository.Train;
 import com.railway.RailwayStation3.service.TrainService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * REST контроллер для работы с поездами через JSON.
+ * Предоставляет полный набор HTTP-методов: GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS.
+ */
 @RestController
-@RequestMapping(path = "api", produces = "application/json")  // ← Важно!
+@RequestMapping(path = "api", produces = "application/json")
 public class ApiController {
     private final TrainService trainService;
 
@@ -20,11 +22,22 @@ public class ApiController {
         this.trainService = trainService;
     }
 
+    /**
+     * Возвращает список всех поездов в формате JSON.
+     *
+     * @return ResponseEntity со списком поездов
+     */
     @GetMapping
     public ResponseEntity<List<Train>> findAll() {
         return new ResponseEntity<>(trainService.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * Добавляет новый поезд из JSON-тела запроса.
+     *
+     * @param train данные нового поезда
+     * @return ResponseEntity с созданным поездом или сообщением об ошибке
+     */
     @PostMapping("/add")
     public ResponseEntity<?> createTrain(@RequestBody Train train) {
         try {
@@ -35,12 +48,27 @@ public class ApiController {
         }
     }
 
+    /**
+     * Удаляет поезд по ID.
+     * Возвращает статус 204 No Content при успешном удалении.
+     *
+     * @param id ID поезда
+     * @return ResponseEntity без тела
+     */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteTrain(@PathVariable Long id) {
         trainService.deleteTrain(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * Полностью обновляет поезд по ID.
+     * Если данные некорректны, возвращает сообщение об ошибке.
+     *
+     * @param id ID поезда
+     * @param train обновлённые данные
+     * @return ResponseEntity с обновлённым поездом или сообщением об ошибке
+     */
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateTrain(@PathVariable Long id, @RequestBody Train train) {
         try {
@@ -52,7 +80,14 @@ public class ApiController {
         }
     }
 
-    // PATCH - частичное обновление
+    /**
+     * Частично обновляет поезд по ID.
+     * Принимает Map с полями, которые нужно изменить.
+     *
+     * @param id ID поезда
+     * @param updates поля для обновления
+     * @return ResponseEntity с обновлённым поездом или сообщением об ошибке
+     */
     @PatchMapping("/{id}")
     public ResponseEntity<?> partialUpdateTrain(
             @PathVariable Long id,
@@ -65,13 +100,21 @@ public class ApiController {
         }
     }
 
-    // HEAD - метаданные (аналогично GET но без тела)
+    /**
+     * Возвращает только заголовки ответа без тела.
+     *
+     * @return пустой ответ с метаданными
+     */
     @RequestMapping(method = RequestMethod.HEAD)
     public ResponseEntity<?> headTrains() {
         return ResponseEntity.ok().build();
     }
 
-    // OPTIONS - информация о доступных методах
+    /**
+     * Возвращает информацию о поддерживаемых методах для всего списка поездов.
+     *
+     * @return заголовок Allow с доступными методами
+     */
     @RequestMapping(method = RequestMethod.OPTIONS)
     public ResponseEntity<?> options() {
         return ResponseEntity.ok()
@@ -79,7 +122,11 @@ public class ApiController {
                 .build();
     }
 
-    // OPTIONS для конкретного поезда
+    /**
+     * Возвращает информацию о поддерживаемых методах для одного поезда.
+     *
+     * @return заголовок Allow с доступными методами
+     */
     @RequestMapping(path = "/{id}", method = RequestMethod.OPTIONS)
     public ResponseEntity<?> optionsTrain() {
         return ResponseEntity.ok()

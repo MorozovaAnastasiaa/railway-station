@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * Контроллер, отвечающий за аутентификацию(вход/регистрация).
+ */
 @Controller
 public class AuthController {
 
@@ -17,17 +20,38 @@ public class AuthController {
         this.userService = userService;
     }
 
+    /**
+     * Отображает форму входа.
+     * Используется Spring Security по умолчанию.
+     *
+     * @return имя шаблона "login"
+     */
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
     }
 
+    /**
+     * Отображает форму регистрации нового пользователя.
+     * Добавляет пустой объект User в модель для привязки формы.
+     *
+     * @param model модель данных
+     * @return имя шаблона "register"
+     */
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
         return "register";
     }
 
+    /**
+     * Обрабатывает регистрацию нового пользователя.
+     * При ошибке валидации возвращает форму с сообщением об ошибке.
+     *
+     * @param user данные пользователя из формы
+     * @param model модель данных
+     * @return редирект на /login при успехе или повторное отображение формы при ошибке
+     */
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user, Model model) {
         try {

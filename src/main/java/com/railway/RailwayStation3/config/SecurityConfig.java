@@ -10,28 +10,45 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Конфигурация безопасности Spring Security.
+ * Настраивает доступ к страницам и API по-разному:
+ * - /api/** — без авторизации (для REST)
+ * - Остальные пути — через форму входа
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // 1. Цепочка для API (полностью отключает security)
+    /**
+     * Безопасность для REST API (/api/**).
+     * Полностью отключает защиту, сессии и CSRF.
+     *
+     * @param http HTTP security builder
+     * @return настроенная цепочка фильтров
+     */
     @Bean
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/**") // Только API-запросы
+                .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .csrf(csrf -> csrf.disable()) // Важно: полное отключение CSRF
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Без сессий
-                )
-                .formLogin(form -> form.disable()); // Отключаем форму входа
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .formLogin(form -> form.disable());
 
         return http.build();
     }
 
+    /**
+     * Безопасность для веб-интерфейса.
+     * Требует аутентификации для всех страниц, кроме /login и /register.
+     *
+     * @param http HTTP security builder
+     */
     @Bean
-    @Order(2) // Выполняется ВТОРЫМ
+    @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
@@ -52,6 +69,12 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Бин для шифрования паролей.
+     * Используется при регистрации и сохранении пользователей.
+     *
+     * @return PasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

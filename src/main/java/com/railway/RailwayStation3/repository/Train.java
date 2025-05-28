@@ -1,13 +1,13 @@
 package com.railway.RailwayStation3.repository;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Класс, представляющий поезд в системе расписания.
+ */
 @Entity
 @Table(name = "trains")
 public class Train {
@@ -16,35 +16,72 @@ public class Train {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Номер поезда.
+     */
     private String number;
 
+    /**
+     * Город отправления поезда.
+     */
     @Column(name="from_city")
     private String fromCity;
 
+    /**
+     * Город прибытия поезда.
+     */
     @Column(name="to_city")
     private String toCity;
 
+    /**
+     * Вокзал отправления поезда.
+     * Может быть пустым, тогда отображается значение по умолчанию ("Главный вокзал").
+     */
     @Column(name="departure_station")
     private String departureStation;
 
+    /**
+     * Вокзал прибытия поезда.
+     * Может быть пустым, тогда отображается значение по умолчанию ("Главный вокзал").
+     */
     @Column(name="arrival_station")
     private String arrivalStation;
 
+    /**
+     * Дата отправления поезда.
+     * Формат: yyyy-MM-dd.
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "departure_date")
     private LocalDate departureDate;
 
+    /**
+     * Время отправления поезда.
+     * Формат: HH:mm.
+     */
     @Column(name = "departure_time")
     private LocalTime departureTime;
 
+    /**
+     * Дата прибытия поезда.
+     * Формат: yyyy-MM-dd.
+     */
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "arrival_date")
     private LocalDate arrivalDate;
 
+    /**
+     * Время прибытия поезда.
+     * Формат: HH:mm.
+     */
     @Column(name = "arrival_time")
     private LocalTime arrivalTime;
 
-    public Train(Long id, String number, String fromCity, String toCity, String departureStation, String arrivalStation, LocalDate departureDate, LocalTime departureTime, LocalDate arrivalDate, LocalTime arrivalTime) {
+    public Train() {
+    }
+
+    public Train(Long id, String number, String fromCity, String toCity, String departureStation, String arrivalStation,
+                 LocalDate departureDate, LocalTime departureTime, LocalDate arrivalDate, LocalTime arrivalTime) {
         this.id = id;
         this.number = number;
         this.fromCity = fromCity;
@@ -55,25 +92,6 @@ public class Train {
         this.departureTime = departureTime;
         this.arrivalDate = arrivalDate;
         this.arrivalTime = arrivalTime;
-    }
-
-    public Train() {
-    }
-
-    public String getDepartureStation() {
-        return departureStation;
-    }
-
-    public void setDepartureStation(String departureStation) {
-        this.departureStation = departureStation;
-    }
-
-    public String getArrivalStation() {
-        return arrivalStation;
-    }
-
-    public void setArrivalStation(String arrivalStation) {
-        this.arrivalStation = arrivalStation;
     }
 
     public Long getId() {
@@ -106,6 +124,22 @@ public class Train {
 
     public void setToCity(String toCity) {
         this.toCity = toCity;
+    }
+
+    public String getDepartureStation() {
+        return departureStation;
+    }
+
+    public void setDepartureStation(String departureStation) {
+        this.departureStation = departureStation;
+    }
+
+    public String getArrivalStation() {
+        return arrivalStation;
+    }
+
+    public void setArrivalStation(String arrivalStation) {
+        this.arrivalStation = arrivalStation;
     }
 
     public LocalDate getDepartureDate() {

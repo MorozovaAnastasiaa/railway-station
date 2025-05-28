@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Сервис для сбора системной статистики.
+ * Используется на странице /stats.
+ */
 @Service
 public class StatsService {
     private final UserRepository userRepository;
@@ -19,12 +23,21 @@ public class StatsService {
         this.trainRepository = trainRepository;
     }
 
+    /**
+     * Собирает данные о пользователях и поездах для отображения на странице статистики.
+     *
+     * @return Map со статистикой: общее число пользователей, популярные направления
+     */
     public Map<String, Object> getSystemStats() {
         Map<String, Object> stats = new HashMap<>();
 
+        // Общее количество зарегистрированных пользователей
         stats.put("totalUsers", userRepository.count());
 
+        // Получаем список популярных направлений из репозитория
         List<Object[]> popularDirections = trainRepository.findPopularDirections();
+
+        // Ограничиваем вывод — только топ-5 направлений
         stats.put("popularDirections", popularDirections.stream()
                 .limit(5)
                 .collect(Collectors.toList()));
