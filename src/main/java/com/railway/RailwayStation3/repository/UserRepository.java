@@ -1,5 +1,6 @@
 package com.railway.RailwayStation3.repository;
 
+import com.railway.RailwayStation3.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

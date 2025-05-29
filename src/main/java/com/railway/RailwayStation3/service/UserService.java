@@ -1,6 +1,6 @@
 package com.railway.RailwayStation3.service;
 
-import com.railway.RailwayStation3.repository.User;
+import com.railway.RailwayStation3.model.User;
 import com.railway.RailwayStation3.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;

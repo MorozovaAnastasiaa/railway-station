@@ -1,4 +1,4 @@
-package com.railway.RailwayStation3.repository;
+package com.railway.RailwayStation3.model;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;

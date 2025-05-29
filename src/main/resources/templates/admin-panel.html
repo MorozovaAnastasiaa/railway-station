@@ -33,11 +33,11 @@
                     <td th:text="${user.phone}"></td>
                     <td th:text="${user.email}"></td>
                     <td>
-                                    <span th:if="${user.role == T(com.railway.RailwayStation3.repository.User).ROLE_ADMIN}"
+                                    <span th:if="${user.role == T(com.railway.RailwayStation3.model.User).ROLE_ADMIN}"
                                           class="badge bg-primary">
                                         Администратор
                                     </span>
-                        <span th:if="${user.role == T(com.railway.RailwayStation3.repository.User).ROLE_USER}"
+                        <span th:if="${user.role == T(com.railway.RailwayStation3.model.User).ROLE_USER}"
                               class="badge bg-secondary">
                                         Пользователь
                                     </span>
@@ -47,12 +47,12 @@
                             <input type="hidden" name="userId" th:value="${user.id}">
                             <div class="col-md-8">
                                 <select name="newRole" class="form-select form-select-sm">
-                                    <option th:value="${T(com.railway.RailwayStation3.repository.User).ROLE_ADMIN}"
-                                            th:selected="${user.role == T(com.railway.RailwayStation3.repository.User).ROLE_ADMIN}">
+                                    <option th:value="${T(com.railway.RailwayStation3.model.User).ROLE_ADMIN}"
+                                            th:selected="${user.role == T(com.railway.RailwayStation3.model.User).ROLE_ADMIN}">
                                         Администратор
                                     </option>
-                                    <option th:value="${T(com.railway.RailwayStation3.repository.User).ROLE_USER}"
-                                            th:selected="${user.role == T(com.railway.RailwayStation3.repository.User).ROLE_USER}">
+                                    <option th:value="${T(com.railway.RailwayStation3.model.User).ROLE_USER}"
+                                            th:selected="${user.role == T(com.railway.RailwayStation3.model.User).ROLE_USER}">
                                         Пользователь
                                     </option>
                                 </select>

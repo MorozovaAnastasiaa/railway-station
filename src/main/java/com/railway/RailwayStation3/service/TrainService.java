@@ -1,6 +1,6 @@
 package com.railway.RailwayStation3.service;
 
-import com.railway.RailwayStation3.repository.Train;
+import com.railway.RailwayStation3.model.Train;
 import com.railway.RailwayStation3.repository.TrainRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

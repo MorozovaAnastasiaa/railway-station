@@ -1,6 +1,6 @@
 package com.railway.RailwayStation3;
 
-import com.railway.RailwayStation3.repository.User;
+import com.railway.RailwayStation3.model.User;
 import com.railway.RailwayStation3.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

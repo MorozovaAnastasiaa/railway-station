@@ -1,7 +1,7 @@
 package com.railway.RailwayStation3.controller;
 
-import com.railway.RailwayStation3.repository.Train;
-import com.railway.RailwayStation3.repository.User;
+import com.railway.RailwayStation3.model.Train;
+import com.railway.RailwayStation3.model.User;
 import com.railway.RailwayStation3.service.TrainService;
 import com.railway.RailwayStation3.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;

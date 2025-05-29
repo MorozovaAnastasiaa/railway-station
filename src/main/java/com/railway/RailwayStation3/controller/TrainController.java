@@ -1,6 +1,6 @@
 package com.railway.RailwayStation3.controller;
 
-import com.railway.RailwayStation3.repository.Train;
+import com.railway.RailwayStation3.model.Train;
 import com.railway.RailwayStation3.service.StatsService;
 import com.railway.RailwayStation3.service.TrainService;
 import com.railway.RailwayStation3.service.UserService;

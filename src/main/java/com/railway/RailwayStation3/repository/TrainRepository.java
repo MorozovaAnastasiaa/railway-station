@@ -1,5 +1,6 @@
 package com.railway.RailwayStation3.repository;
 
+import com.railway.RailwayStation3.model.Train;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
