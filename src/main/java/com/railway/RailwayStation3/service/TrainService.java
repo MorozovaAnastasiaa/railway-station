@@ -52,6 +52,77 @@ public class TrainService {
             throw new IllegalArgumentException("Поезд с таким номером уже существует");
         }
 
+        if (!train.getNumber().matches("^[a-zA-Z0-9]{2,10}$")) {
+            throw new IllegalArgumentException("Номер поезда должен содержать 2-10 английских букв или цифр");
+        }
+
+        // Проверка: город отправления не пустой и содержит от 2 до 30 символов
+//        if (train.getFromCity() == null || train.getFromCity().trim().isEmpty()) {
+//            throw new IllegalArgumentException("Город отправления не может быть пустым");
+//        }
+//        if (train.getFromCity().length() < 2 || train.getFromCity().length() > 30) {
+//            throw new IllegalArgumentException("Город отправления должен содержать от 2 до 30 символов");
+//        }
+//
+//        // Проверка: город отправления не должен содержать цифры
+//        if (!train.getFromCity().matches("[а-яА-ЯёЁa-zA-Z\\s\\-]+")) {
+//            throw new IllegalArgumentException("Город отправления не должен содержать цифры");
+//        }
+
+        if (train.getFromCity() == null
+                || train.getFromCity().trim().isEmpty()
+                || train.getFromCity().length() < 2
+                || train.getFromCity().length() > 30
+                || !train.getFromCity().matches("[а-яА-ЯёЁa-zA-Z\\s\\-]+")) {
+
+            throw new IllegalArgumentException("Город отправления должен содержать от 2 до 30 символов и не должен содержать цифр");
+        }
+
+        if (train.getToCity() == null
+                || train.getToCity().trim().isEmpty()
+                || train.getToCity().length() < 2
+                || train.getToCity().length() > 30
+                || !train.getToCity().matches("[а-яА-ЯёЁa-zA-Z\\s\\-]+")) {
+
+            throw new IllegalArgumentException("Город прибытия должен содержать от 2 до 30 символов и не должен содержать цифр");
+        }
+
+        if (train.getDepartureStation() == null
+                || train.getDepartureStation().trim().isEmpty()
+                || train.getDepartureStation().length() < 2
+                || train.getDepartureStation().length() > 30
+                || !train.getDepartureStation().matches("[а-яА-ЯёЁa-zA-Z\\s\\-]+")) {
+
+            throw new IllegalArgumentException("Вокзал отправления должен содержать от 2 до 30 символов и не должен содержать цифр");
+        }
+
+        if (train.getArrivalStation() == null
+                || train.getArrivalStation().trim().isEmpty()
+                || train.getArrivalStation().length() < 2
+                || train.getArrivalStation().length() > 30
+                || !train.getArrivalStation().matches("[а-яА-ЯёЁa-zA-Z\\s\\-]+")) {
+
+            throw new IllegalArgumentException("Вокзал прибытия должен содержать от 2 до 30 символов и не должен содержать цифр");
+        }
+
+//        // Проверка: город прибытия не пустой и содержит от 2 до 30 символов
+//        if (train.getToCity() == null || train.getToCity().trim().isEmpty()) {
+//            throw new IllegalArgumentException("Город прибытия не может быть пустым");
+//        }
+//        if (train.getToCity().length() < 2 || train.getToCity().length() > 30) {
+//            throw new IllegalArgumentException("Город прибытия должен содержать от 2 до 30 символов");
+//        }
+//
+//        // Проверка: город прибытия не должен содержать цифры
+//        if (!train.getToCity().matches("[а-яА-ЯёЁa-zA-Z\\s\\-]+")) {
+//            throw new IllegalArgumentException("Город прибытия не должен содержать цифры");
+//        }
+
+
+        if (train.getFromCity().equalsIgnoreCase(train.getToCity())) {
+            throw new IllegalArgumentException("Города отправления и прибытия не могут совпадать");
+        }
+
         if (train.getDepartureDate().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("Дата отправления не может быть в прошлом");
         }
@@ -89,6 +160,30 @@ public class TrainService {
 
         if (!existingTrain.getNumber().equals(train.getNumber()) && trainRepository.existsByNumber(train.getNumber())) {
             throw new IllegalArgumentException("Поезд с таким номером уже существует");
+        }
+
+        if (!train.getNumber().matches("^[a-zA-Z0-9]{2,10}$")) {
+            throw new IllegalArgumentException("Номер поезда должен содержать 2-10 букв или цифр");
+        }
+
+        if (train.getFromCity().length() < 2 || train.getFromCity().length() > 30) {
+            throw new IllegalArgumentException("Город отправления должен содержать от 2 до 30 символов");
+        }
+
+        if (!train.getFromCity().matches("[а-яА-ЯёЁa-zA-Z\\s\\-]+")) {
+            throw new IllegalArgumentException("Город отправления не должен содержать цифры");
+        }
+
+        if (train.getToCity().length() < 2 || train.getToCity().length() > 30) {
+            throw new IllegalArgumentException("Город прибытия должен содержать от 2 до 30 символов");
+        }
+
+        if (!train.getToCity().matches("[а-яА-ЯёЁa-zA-Z\\s\\-]+")) {
+            throw new IllegalArgumentException("Город прибытия не должен содержать цифры");
+        }
+
+        if (train.getFromCity().equalsIgnoreCase(train.getToCity())) {
+            throw new IllegalArgumentException("Города отправления и прибытия не могут совпадать");
         }
 
         if (train.getDepartureDate().isBefore(LocalDate.now())) {
@@ -129,16 +224,31 @@ public class TrainService {
     public List<Train> findByFilters(String fromCity, String toCity, LocalDate departureDate, String sortBy) {
         Sort sort = Sort.by(sortBy);
 
-        if (fromCity == null && toCity == null && departureDate == null) {
+        boolean allEmpty = (isBlank(fromCity) && isBlank(toCity) && departureDate == null);
+        if (allEmpty) {
             return trainRepository.findAll(sort);
         }
 
-        if (fromCity == null || toCity == null || departureDate == null) {
+        boolean anyNotEmpty = (!isBlank(fromCity) || !isBlank(toCity) || departureDate != null);
+        boolean allPresent  = (!isBlank(fromCity) && !isBlank(toCity) && departureDate != null);
+        if (anyNotEmpty && !allPresent) {
             throw new IllegalArgumentException("Для фильтрации необходимо заполнить все поля");
         }
 
-        return trainRepository.findByFromCityAndToCityAndDepartureDate(fromCity, toCity, departureDate, sort);
+        return trainRepository.findByFromCityAndToCityAndDepartureDate(fromCity.trim(), toCity.trim(), departureDate, sort);
     }
+
+    private boolean isBlank(String s) {
+        return (s == null || s.trim().isEmpty());
+    }
+
+//    public List<Train> findByFilters(String fromCity, String toCity, LocalDate departureDate, Sort sort) {
+//        if (fromCity != null && toCity != null && departureDate != null) {
+//            return trainRepository.findByFromCityAndToCityAndDepartureDate(fromCity, toCity, departureDate, sort);
+//        }
+//
+//        return trainRepository.findAll(sort);
+//    }
 
     /**
      * Возвращает список уникальных городов отправления.

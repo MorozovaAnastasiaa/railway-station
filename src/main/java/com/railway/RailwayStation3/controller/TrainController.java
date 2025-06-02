@@ -61,7 +61,7 @@ public class TrainController {
             model.addAttribute("departureDate", departureDate);
             model.addAttribute("sortBy", sortBy);
 
-            return "index";
+            return "main/index";
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
             return "redirect:/";

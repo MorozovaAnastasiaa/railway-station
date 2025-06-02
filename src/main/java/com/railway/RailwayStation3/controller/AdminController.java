@@ -41,7 +41,7 @@ public class AdminController {
         if (!model.containsAttribute("train")) {
             model.addAttribute("train", new Train());
         }
-        return "add-train";
+        return "control/add-train";
     }
 
     /**
@@ -112,7 +112,7 @@ public class AdminController {
     public String showUpdateForm(@PathVariable Long id, Model model) {
         Train train = trainService.getTrainById(id);
         model.addAttribute("train", train);
-        return "update-train";
+        return "control/update-train";
     }
 
     /**
@@ -153,7 +153,7 @@ public class AdminController {
     public String adminForm(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
-        return "admin-panel";
+        return "main/admin-panel";
     }
 
     /**

@@ -26,6 +26,6 @@ public class StatsController {
     @GetMapping("/stats")
     public String statsPage(Model model) {
         model.addAttribute("stats", statsService.getSystemStats());
-        return "stats";
+        return "main/stats";
     }
 }

@@ -28,7 +28,7 @@ public class AuthController {
      */
     @GetMapping("/login")
     public String showLoginForm() {
-        return "login";
+        return "auth/login";
     }
 
     /**
@@ -41,7 +41,7 @@ public class AuthController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-        return "register";
+        return "auth/register";
     }
 
     /**
@@ -59,7 +59,7 @@ public class AuthController {
             return "redirect:/login?registered";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            return "register";
+            return "auth/register";
         }
     }
 }
